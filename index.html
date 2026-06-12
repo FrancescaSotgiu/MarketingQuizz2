@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Marketing Mastery — Quiz 2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { min-height: 100vh; background: #f5f7ff; font-family: 'DM Sans', sans-serif; color: #0f172a; overflow-x: hidden; }
+
+  @keyframes float { from { transform: translateY(0) scale(1); opacity: 0.3; } to { transform: translateY(-20px) scale(1.4); opacity: 0.7; } }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes popIn { 0% { transform: scale(0.7); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .screen { display: none; position: relative; z-index: 1; }
+  .screen.active { display: block; animation: slideUp 0.5s ease both; }
+
+  #bg-glow-1 { position: fixed; top: -20%; right: -10%; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(30,64,175,0.10) 0%, transparent 70%); pointer-events: none; z-index: 0; transition: background 0.8s ease; }
+  #bg-glow-2 { position: fixed; bottom: -20%; left: -10%; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+  #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+  .container { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+  .center { text-align: center; }
+
+  .syne { font-family: 'Syne', sans-serif; }
+  .label-tag { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1e40af; margin-bottom: 20px; display: block; }
+  .hero-title { font-family: 'Syne', sans-serif; font-size: clamp(42px, 8vw, 80px); font-weight: 800; line-height: 1.05; background: linear-gradient(135deg, #0f172a 30%, #1e40af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-title.purple { background: linear-gradient(135deg, #0f172a 30%, #7c3aed); -webkit-background-clip: text; background-clip: text; }
+  .subtitle { font-size: 17px; color: rgba(15,23,42,0.6); max-width: 440px; line-height: 1.65; margin: 16px auto 0; }
+
+  .pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.10); border-radius: 100px; padding: 8px 16px; font-size: 13px; color: rgba(15,23,42,0.55); }
+  .pill-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 20px 0 48px; }
+  .cat-tag { display: inline-block; border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+  .cat-tag.orange { background: rgba(30,64,175,0.08); border: 1px solid rgba(30,64,175,0.22); color: #1e40af; }
+  .cat-tag.purple { background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.22); color: #7c3aed; }
+
+  .btn-primary { background: #1e40af; color: #fff; border: none; border-radius: 100px; padding: 18px 54px; font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; display: inline-block; }
+  .btn-primary:hover { transform: scale(1.04); filter: brightness(1.1); }
+  .btn-primary.purple { background: #7c3aed; }
+  .btn-primary.full { width: 100%; }
+  .btn-next { background: #1e40af; color: #fff; border: none; border-radius: 100px; padding: 15px 40px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s ease; margin-top: 4px; }
+  .btn-next:hover { filter: brightness(1.1); }
+  .btn-next.purple { background: #7c3aed; }
+
+  .progress-bar-wrap { height: 3px; background: rgba(0,0,0,0.07); border-radius: 100px; margin-bottom: 36px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, #1e40af, #3b82f6); transition: width 0.5s ease; }
+  .progress-bar-fill.purple { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+
+  .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .game-brand { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #1e40af; }
+  .game-brand.purple { color: #7c3aed; }
+  .game-round-label { font-size: 12px; color: rgba(15,23,42,0.4); margin-top: 2px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .q-counter { background: rgba(0,0,0,0.05); border-radius: 100px; padding: 6px 16px; font-size: 13px; font-weight: 600; }
+  .round2-badge { background: rgba(124,58,237,0.10); border: 1px solid rgba(124,58,237,0.22); border-radius: 100px; padding: 5px 13px; font-size: 12px; color: #7c3aed; font-weight: 600; }
+
+  .question-text { font-family: 'Syne', sans-serif; font-size: clamp(19px, 3.2vw, 25px); font-weight: 700; line-height: 1.35; margin-bottom: 32px; color: #0f172a; }
+  .scenario-box { background: rgba(124,58,237,0.05); border: 1px solid rgba(124,58,237,0.16); border-radius: 12px; padding: 16px 18px; font-size: 14px; color: rgba(15,23,42,0.7); line-height: 1.7; margin-bottom: 28px; font-style: italic; }
+
+  .options-list { display: flex; flex-direction: column; gap: 11px; margin-bottom: 24px; }
+  .opt-btn { background: rgba(0,0,0,0.02); border: 1.5px solid rgba(0,0,0,0.09); border-radius: 12px; padding: 14px 18px; display: flex; align-items: flex-start; gap: 13px; text-align: left; color: #0f172a; font-size: 14px; cursor: pointer; transition: all 0.2s ease; width: 100%; font-family: 'DM Sans', sans-serif; }
+  .opt-btn:hover:not(:disabled) { transform: translateX(5px); border-color: rgba(30,64,175,0.5); background: rgba(30,64,175,0.06); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.45); color: #065f46; animation: popIn 0.3s ease both; }
+  .opt-btn.wrong { background: rgba(239,68,68,0.07); border-color: rgba(239,68,68,0.4); color: #991b1b; animation: popIn 0.3s ease both; }
+  .opt-letter { width: 26px; height: 26px; border-radius: 7px; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; color: rgba(15,23,42,0.4); margin-top: 1px; }
+  .opt-btn.correct .opt-letter { color: #065f46; }
+  .opt-btn.wrong .opt-letter { color: #991b1b; }
+  .opt-text { line-height: 1.55; }
+
+  .explanation { background: rgba(0,0,0,0.02); border-radius: 12px; padding: 14px 18px; font-size: 14px; line-height: 1.65; color: rgba(15,23,42,0.7); margin-bottom: 24px; animation: slideUp 0.4s ease both; }
+  .explanation.correct-border { border: 1px solid rgba(0,0,0,0.06); border-left: 3px solid #34d399; }
+  .explanation.wrong-border { border: 1px solid rgba(0,0,0,0.06); border-left: 3px solid #f87171; }
+  .explanation-label { font-weight: 600; }
+  .explanation-label.green { color: #059669; }
+  .explanation-label.red { color: #dc2626; }
+
+  .solution-box { background: rgba(124,58,237,0.05); border: 1px solid rgba(124,58,237,0.18); border-radius: 14px; padding: 20px; margin-bottom: 14px; animation: slideUp 0.4s ease both; }
+  .solution-verdict { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #7c3aed; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .solution-body { font-size: 14px; line-height: 1.75; color: rgba(15,23,42,0.75); }
+  .lessons-box { background: rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 18px 20px; animation: slideUp 0.4s ease both; }
+  .lessons-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; color: rgba(15,23,42,0.4); text-transform: uppercase; margin-bottom: 14px; }
+  .lesson-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: rgba(15,23,42,0.78); line-height: 1.5; margin-bottom: 9px; }
+  .lesson-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(124,58,237,0.10); border: 1px solid rgba(124,58,237,0.25); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #7c3aed; flex-shrink: 0; margin-top: 2px; }
+
+  .score-display { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 800; color: #1e40af; margin: 20px 0 6px; }
+  .score-display span { font-size: 24px; color: rgba(15,23,42,0.35); }
+  .between-box { background: rgba(124,58,237,0.05); border: 1px solid rgba(124,58,237,0.18); border-radius: 16px; padding: 20px 24px; margin-bottom: 36px; text-align: left; }
+  .between-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: #7c3aed; text-transform: uppercase; margin-bottom: 14px; }
+  .preview-item { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 14px; color: rgba(15,23,42,0.65); align-items: center; }
+  .preview-item:last-child { border-bottom: none; }
+  .preview-num { width: 24px; height: 24px; border-radius: 50%; background: rgba(124,58,237,0.10); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #7c3aed; flex-shrink: 0; }
+
+  .scores-row { display: flex; justify-content: center; gap: 32px; margin: 24px 0; flex-wrap: wrap; }
+  .score-cell { text-align: center; }
+  .score-big { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; }
+  .score-big span { font-size: 18px; color: rgba(15,23,42,0.35); }
+  .score-cell-label { font-size: 12px; color: rgba(15,23,42,0.45); margin-top: 4px; }
+  .review-section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 2px; color: rgba(15,23,42,0.4); text-transform: uppercase; margin-bottom: 16px; }
+  .review-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 18px 20px; margin-bottom: 10px; cursor: pointer; transition: background 0.25s ease; background: #fff; }
+  .review-card:hover { background: rgba(30,64,175,0.03); }
+  .review-card-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .review-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+  .review-icon.correct { background: rgba(52,211,153,0.10); border: 1px solid rgba(52,211,153,0.4); color: #059669; }
+  .review-icon.wrong { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #dc2626; }
+  .review-q { font-size: 14px; font-weight: 500; color: #0f172a; line-height: 1.4; }
+  .review-cat { font-size: 12px; color: rgba(15,23,42,0.4); margin-top: 2px; }
+  .review-toggle { color: #7c3aed; font-size: 18px; flex-shrink: 0; }
+  .review-body { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.07); animation: slideUp 0.3s ease both; }
+  .review-body p { font-size: 13px; color: rgba(15,23,42,0.65); line-height: 1.7; margin-bottom: 16px; }
+  .review-lesson { display: flex; gap: 10px; font-size: 13px; color: rgba(15,23,42,0.72); line-height: 1.5; margin-bottom: 8px; }
+  .review-arrow { color: #7c3aed; font-weight: 700; flex-shrink: 0; }
+
+  .footer-attribution { margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(30,64,175,0.15); text-align: center; }
+  .footer-attribution p { font-size: 13px; color: rgba(15,23,42,0.5); line-height: 1.6; }
+  .footer-attribution strong { color: #1e40af; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="bg-glow-1"></div>
+<div id="bg-glow-2"></div>
+<div id="particles"></div>
+
+<!-- INTRO -->
+<div id="screen-intro" class="screen active center">
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding-top:60px;padding-bottom:60px;">
+    <img src="VU-logo-RGB.jpg" alt="VU Amsterdam Logo" style="height:64px;width:auto;margin-bottom:32px;object-fit:contain;" />
+    <span class="label-tag">Interactive Learning — Quiz 2</span>
+    <h1 class="hero-title">Marketing<br>Mastery</h1>
+    <p class="subtitle">Two rounds. Thirteen concept questions on markets, value &amp; strategy — then two real-world application challenges.</p>
+    <div class="pill-row" style="margin-top:28px;">
+      <span class="pill">🎯 Round 1: 13 Concept Qs</span>
+      <span class="pill">🧠 Round 2: 2 Application Cases</span>
+      <span class="pill">📋 Full Solutions &amp; Key Lessons</span>
+    </div>
+    <button class="btn-primary" onclick="startGame()">Start Round 1 →</button>
+    <div class="footer-attribution">
+      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU PreMaster Marketing course 2026</p>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="screen-game" class="screen">
+  <div class="container">
+    <div class="game-header">
+      <div>
+        <div class="game-brand" id="game-brand">Marketing Mastery</div>
+        <div class="game-round-label" id="round-label">Round 1 — Concepts</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span id="round2-badge" class="round2-badge" style="display:none;">Round 2</span>
+        <span class="q-counter" id="q-counter">1/13</span>
+      </div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="cat-tag orange" id="cat-tag"></div>
+    <h2 class="question-text" id="question-text"></h2>
+    <div class="scenario-box" id="scenario-box" style="display:none;"></div>
+    <div class="options-list" id="options-list"></div>
+    <div id="feedback-area"></div>
+    <button class="btn-next" id="btn-next" style="display:none;" onclick="nextQuestion()">Next Question →</button>
+  </div>
+</div>
+
+<!-- BETWEEN ROUNDS -->
+<div id="screen-between" class="screen center">
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;padding-top:60px;padding-bottom:60px;">
+    <div style="font-size:60px;margin-bottom:12px;" id="r1-badge-emoji">🎯</div>
+    <span class="label-tag">Round 1 Complete</span>
+    <h2 class="hero-title" style="font-size:clamp(28px,5vw,44px);" id="r1-badge-label">Brand Strategist</h2>
+    <div class="score-display" id="r1-score-display">0<span>/13</span></div>
+    <p style="color:rgba(15,23,42,0.55);font-size:15px;margin-bottom:40px;max-width:460px;line-height:1.6;">Concepts done. Now for the application challenge — two real-world marketing decisions that require strategic thinking. Choose carefully.</p>
+    <div class="between-box" style="width:100%;max-width:520px;">
+      <div class="between-label">What's coming in Round 2</div>
+      <div class="preview-item"><span class="preview-num">1</span> Which marketing orientation does Volvo's seatbelt decision reflect?</div>
+      <div class="preview-item" style="border-bottom:none;"><span class="preview-num">2</span> BCG Matrix: How should a mail-order company manage its three SBUs?</div>
+    </div>
+    <button class="btn-primary purple" onclick="startRound2()">Start Round 2 →</button>
+    <div class="footer-attribution">
+      <img src="VU-logo-RGB.jpg" alt="VU Amsterdam Logo" style="height:48px;width:auto;margin-bottom:12px;object-fit:contain;" />
+      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU PreMaster Marketing course 2026</p>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL RESULT -->
+<div id="screen-result" class="screen">
+  <div class="container center" style="padding-top:50px;padding-bottom:80px;">
+    <div style="font-size:64px;margin-bottom:12px;">🏆</div>
+    <span class="label-tag" style="color:#7c3aed;">All Rounds Complete</span>
+    <h2 class="hero-title purple" id="final-title" style="font-size:clamp(30px,6vw,52px);">Marketing Master</h2>
+    <div class="scores-row">
+      <div class="score-cell"><div class="score-big" style="color:#1e40af;" id="final-r1">0<span>/13</span></div><div class="score-cell-label">Round 1</div></div>
+      <div class="score-cell"><div class="score-big" style="color:#7c3aed;" id="final-r2">0<span>/2</span></div><div class="score-cell-label">Round 2</div></div>
+      <div class="score-cell"><div class="score-big" style="color:#059669;" id="final-total">0<span>/15</span></div><div class="score-cell-label">Total</div></div>
+    </div>
+    <p style="color:rgba(15,23,42,0.55);font-size:15px;margin-bottom:48px;" id="final-message"></p>
+
+    <div style="text-align:left;margin-bottom:40px;">
+      <div class="review-section-title">📚 Application Case Review — Key Lessons</div>
+      <div id="review-cards"></div>
+    </div>
+
+    <button class="btn-primary full" onclick="restartGame()">Play Again</button>
+    <div class="footer-attribution" style="margin-top:48px;">
+      <img src="VU-logo-RGB.jpg" alt="VU Amsterdam Logo" style="height:48px;width:auto;margin-bottom:12px;object-fit:contain;" />
+      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU PreMaster Marketing course 2026</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const ROUND1 = [
+  {
+    id: 1,
+    category: "Markets & Offerings",
+    question: "What is the primary difference between a \"market\" and a \"market offering\"?",
+    options: [
+      "A market refers to the group of actual and potential buyers, while a market offering is the combination of products, services, and experiences a company provides to meet their needs.",
+      "A market is a specific product category, while a market offering is the price of that product.",
+      "A market is the physical place where goods are sold, while a market offering is the company's annual sales revenue.",
+      "A market is the total number of competitors in an industry, while a market offering is the number of customers a company serves."
+    ],
+    correct: 0,
+    explanation: "A market = the group of actual and potential buyers. A market offering = the full bundle of products, services, and experiences a firm creates to satisfy those buyers. The two are complementary: offerings are designed for markets."
+  },
+  {
+    id: 2,
+    category: "Needs, Wants & Demands",
+    question: "What is the primary difference between a need and a want?",
+    options: [
+      "A need is essential for survival, while a want is something desired but not essential.",
+      "A need is related to social status, whereas a want is related to emotional fulfillment.",
+      "A need is temporary, while a want is permanent.",
+      "A need is something you enjoy, whereas a want is something necessary for happiness."
+    ],
+    correct: 0,
+    explanation: "Needs are states of felt deprivation — basic human requirements (food, safety, belonging). Wants are culturally shaped expressions of those needs. Everyone needs nutrition (need), but not everyone wants a latte (want). Marketers satisfy needs by shaping wants."
+  },
+  {
+    id: 3,
+    category: "Markets & Offerings",
+    question: "What is a market offering?",
+    options: [
+      "The consumer demand for a particular product or service.",
+      "The entire range of products, services, and experiences a company offers to satisfy consumer needs.",
+      "The expected profit margin on a product.",
+      "The price at which a product is offered to customers."
+    ],
+    correct: 1,
+    explanation: "A market offering is not just a physical product — it is the full combination of goods, services, information, or experiences that a company offers to create value for a target market."
+  },
+  {
+    id: 4,
+    category: "Needs, Wants & Demands",
+    question: "According to Maslow's hierarchy, which of the following would be considered a \"self-actualization\" need?",
+    options: [
+      "Friendship and relationships",
+      "Food and water",
+      "Career fulfillment and personal growth",
+      "Shelter and security"
+    ],
+    correct: 2,
+    explanation: "Self-actualization sits at the top of Maslow's pyramid. It refers to realising one's full potential — creative fulfillment, mastery, purpose. Friendship = social needs (level 3). Food/water = physiological (level 1). Shelter = safety (level 2)."
+  },
+  {
+    id: 5,
+    category: "Needs, Wants & Demands",
+    question: "Which of the following best defines \"demand\"?",
+    options: [
+      "The specific goods and services produced by a company.",
+      "The wants that are backed by purchasing power.",
+      "The total amount of goods produced in a given market.",
+      "The quantity of a product that a company is willing to sell."
+    ],
+    correct: 1,
+    explanation: "Demand = want + purchasing power. A want without the ability to pay is not demand. Marketing converts wants into effective demand by creating accessible, affordable offerings that people are both willing and able to buy."
+  },
+  {
+    id: 6,
+    category: "Customer Value",
+    question: "What is customer perception?",
+    options: [
+      "The actual quality of a product as determined by the company.",
+      "The way a customer interprets and forms an opinion about a brand, product, or service based on interactions and communication.",
+      "The satisfaction a customer feels after purchasing a product.",
+      "The measurable features and benefits of a product."
+    ],
+    correct: 1,
+    explanation: "Perception is subjective. It is how customers see and interpret a brand — shaped by their experiences, communication cues, and context — regardless of objective quality. In marketing, perceived quality often matters more than actual quality."
+  },
+  {
+    id: 7,
+    category: "Customer Value",
+    question: "How does customer satisfaction differ from customer perception?",
+    options: [
+      "Satisfaction is about initial reactions, while perception is the overall assessment.",
+      "Satisfaction is based on whether expectations were met, while perception is the general impression of the brand or product.",
+      "Satisfaction is a comparison with competitors, while perception is about price.",
+      "Satisfaction only applies to the quality of the product, while perception only applies to customer service."
+    ],
+    correct: 1,
+    explanation: "Satisfaction is a post-purchase judgement: did the product meet, exceed, or fall below expectations? Perception is broader — it is the ongoing mental image a customer holds about a brand. You can be dissatisfied with a specific product yet still perceive the brand positively overall."
+  },
+  {
+    id: 8,
+    category: "Dual Value Creation",
+    question: "Which of the following best illustrates dual value creation, where both the customer AND the company receive value?",
+    options: [
+      "A company offers a free trial period for its streaming service, allowing users to experience the platform before committing.",
+      "A car rental company provides a loyalty program that rewards customers with discounts on rentals, increasing customer satisfaction while encouraging repeat business.",
+      "A business offers a seasonal discount, allowing customers to purchase products at a lower price during peak demand.",
+      "A company launches a high-end product line exclusively to increase its brand prestige in the market."
+    ],
+    correct: 1,
+    explanation: "A loyalty program exemplifies dual value creation: the customer gains discounts and recognition (value for customer), while the company gains repeat purchases, retention data, and long-term revenue (value for company). Free trials and discounts primarily benefit the customer. A prestige line primarily benefits brand equity, not the customer directly."
+  },
+  {
+    id: 9,
+    category: "Marketing Management",
+    question: "What is marketing management?",
+    options: [
+      "The process of creating a new product.",
+      "The art and science of choosing target markets and building profitable relationships with them.",
+      "The strategy of maximizing production efficiency.",
+      "The analysis of financial outcomes."
+    ],
+    correct: 1,
+    explanation: "Marketing management is the art and science of choosing target markets and building profitable, value-creating relationships with them (Kotler & Armstrong, 2023). It involves strategic decisions about who to serve and how to serve them effectively."
+  },
+  {
+    id: 10,
+    category: "Marketing Management",
+    question: "In marketing management, what does the question \"What customers will we serve?\" refer to?",
+    options: [
+      "Marketing analysis",
+      "Segmenting, Targeting, Positioning",
+      "Value Proposition",
+      "Profit maximization"
+    ],
+    correct: 1,
+    explanation: "\"What customers will we serve?\" is the STP question — Segmenting (identifying groups), Targeting (choosing which groups to serve), and Positioning (deciding how to serve them). It is the foundation of customer-driven marketing strategy."
+  },
+  {
+    id: 11,
+    category: "STP Strategy",
+    question: "Which of the following best describes \"Segmenting, Targeting, Positioning\"?",
+    options: [
+      "The process of developing new products.",
+      "A method for analyzing the financial health of a company.",
+      "The process of selecting specific customer groups to focus on and determining how to position a product for them.",
+      "A strategy for setting the price of a product."
+    ],
+    correct: 2,
+    explanation: "STP is the core of customer-driven strategy. Segmenting breaks the market into groups with similar needs. Targeting selects which segment(s) to serve. Positioning determines what place the brand should occupy in the minds of that target segment."
+  },
+  {
+    id: 12,
+    category: "Marketing Management",
+    question: "In marketing management, what does the question \"How can we best serve these customers?\" refer to?",
+    options: [
+      "Profit maximization",
+      "Cost reduction",
+      "Value proposition",
+      "Product innovation"
+    ],
+    correct: 2,
+    explanation: "\"How can we best serve these customers?\" asks what unique bundle of benefits the company will offer — its value proposition. The value proposition is what differentiates the company from competitors and answers why a customer should choose this offering."
+  },
+  {
+    id: 13,
+    category: "Value Proposition",
+    question: "What is a value proposition?",
+    options: [
+      "The unique set of benefits a company offers to meet the needs of its target customers.",
+      "A summary of the product's features.",
+      "A company's financial goals.",
+      "A method of segmenting customers based on geography."
+    ],
+    correct: 0,
+    explanation: "A value proposition is the full mix of benefits on which a brand is positioned — the answer to 'why buy from us?' It goes beyond features to encompass functional, emotional, and social benefits. Strong value propositions are distinctive, credible, and meaningful to the target segment."
+  }
+];
+
+const ROUND2 = [
+  {
+    id: 14,
+    category: "Marketing Orientations",
+    question: "Which marketing orientation does this reflect?",
+    scenario: "📋 Volvo invented the three-point seatbelt in 1959. Rather than patenting it to generate revenue, Volvo made the patent free for all competitors to use — because the invention had more value as a universal life-saving tool than as a source of profit.",
+    options: [
+      "Product orientation — Volvo focused on perfecting the seatbelt technology above all else.",
+      "Marketing orientation — Volvo identified consumer safety needs and responded to them.",
+      "Selling orientation — Volvo gave away the patent to gain market share.",
+      "Societal marketing orientation — Volvo prioritised societal wellbeing over short-term commercial gain."
+    ],
+    correct: 3,
+    verdict: "Societal Marketing Orientation — and here is the full analysis.",
+    body: "The societal marketing orientation is the most advanced of the five management philosophies. It holds that companies should make decisions that balance company profit, customer needs, AND long-term societal wellbeing.\n\nVolvo's seatbelt decision is the textbook example: they had a profitable innovation but chose to share it freely because saving lives was more important than protecting a patent. This is not product orientation (which would focus on feature superiority), nor selling orientation (pushing product at any cost), nor even a standard marketing orientation (serving customer needs profitably).\n\nSocietal marketing goes one step further — it asks: even if we CAN profit from this, should we? Volvo's decision earned them enormous brand trust and is still cited 65 years later as a defining moment of corporate values. The paradox is that doing right by society often creates stronger long-term brand equity than purely commercial decisions.",
+    lessons: [
+      "Societal marketing balances profit, customer needs, AND long-term societal wellbeing",
+      "Giving something away can create more brand value than monetising it",
+      "Product orientation ≠ societal orientation — intent and impact matter",
+      "The most memorable marketing moments often involve choosing purpose over short-term profit",
+      "Kotler's 5 orientations: Production → Product → Selling → Marketing → Societal"
+    ]
+  },
+  {
+    id: 15,
+    category: "BCG Matrix",
+    question: "A mail-order company has three SBUs: Fashion, Electronics, and Furniture. Based on the BCG Matrix, which analysis and recommendation is correct?",
+    scenario: "📋 Market positions: Fashion — market leader (your share is 50% higher than the main competitor); Electronics — market leader (your share is 70% higher than the main competitor); Furniture — follower (your share is 40% vs. competitor's 60%). Market growth rates: Electronics +8%, Fashion +4%, Furniture +2%. Revenue split: 50% Fashion, 25% Electronics, 25% Furniture.",
+    options: [
+      "Electronics = Cash Cow (invest heavily); Fashion = Star (harvest); Furniture = Dog (grow) — double down on all three.",
+      "Electronics = Star (invest to maintain leadership); Fashion = Cash Cow (harvest to fund growth); Furniture = Dog (consider divesting or restructuring).",
+      "Electronics = Star (invest); Fashion = Dog (divest); Furniture = Cash Cow (harvest) — restructure immediately.",
+      "Electronics = Question Mark (uncertain growth); Fashion = Star (invest); Furniture = Cash Cow (harvest) — focus on Fashion."
+    ],
+    correct: 1,
+    verdict: "Option B — Electronics: Star | Fashion: Cash Cow | Furniture: Dog.",
+    body: "The BCG Matrix plots SBUs on two axes: relative market share (vs. main competitor) and market growth rate.\n\nElectronics: High relative share (market leader, 70% higher than rival) + high growth rate (8%) = STAR. Stars generate good revenue but require investment to sustain leadership as the market grows fast. Recommendation: invest to maintain position.\n\nFashion: High relative share (market leader, 50% higher than rival) + low/moderate growth (4%) = CASH COW. Cash Cows have strong share in mature markets — they generate more cash than they consume. Since Fashion also contributes 50% of revenue, it is the company's engine. Recommendation: maintain position, harvest cash flows to fund investments elsewhere.\n\nFurniture: Low relative share (40% vs. 60% — you are the follower) + low growth (2%) = DOG. Dogs operate in low-growth markets with weak competitive position. They rarely generate significant cash. Recommendation: consider divesting or restructuring to redeploy resources into Stars and Cash Cows.\n\nThe overall portfolio is well-balanced: a Cash Cow funds the Star, and the Dog should be exited to avoid draining resources.",
+    lessons: [
+      "BCG Matrix axes: relative market share (vs. competitor) and market growth rate",
+      "Stars = high share + high growth → invest to defend leadership",
+      "Cash Cows = high share + low growth → harvest cash to fund Stars",
+      "Dogs = low share + low growth → divest or restructure to free up resources",
+      "A healthy portfolio has Cash Cows funding Stars — avoid over-investing in Dogs",
+      "Revenue contribution matters: losing your Cash Cow (Fashion, 50% revenue) would be catastrophic"
+    ]
+  }
+];
+
+// State
+let round = 1, currentQ = 0, score = 0, r2Score = 0;
+let answers = [], r2Answers = [], expandedCard = null;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); });
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setRoundTheme(r) {
+  const glow = document.getElementById('bg-glow-1');
+  const brand = document.getElementById('game-brand');
+  const fill = document.getElementById('progress-fill');
+  const badge = document.getElementById('round2-badge');
+  const next = document.getElementById('btn-next');
+  if (r === 2) {
+    glow.style.background = 'radial-gradient(circle, rgba(124,58,237,0.10) 0%, transparent 70%)';
+    brand.className = 'game-brand purple';
+    fill.className = 'progress-bar-fill purple';
+    badge.style.display = 'inline-block';
+    next.className = 'btn-next purple';
+    document.getElementById('round-label').textContent = 'Round 2 — Application Cases';
+  } else {
+    glow.style.background = 'radial-gradient(circle, rgba(30,64,175,0.10) 0%, transparent 70%)';
+    brand.className = 'game-brand';
+    fill.className = 'progress-bar-fill';
+    badge.style.display = 'none';
+    next.className = 'btn-next';
+    document.getElementById('round-label').textContent = 'Round 1 — Concepts';
+  }
+}
+
+function renderQuestion() {
+  const qs = round === 1 ? ROUND1 : ROUND2;
+  const q = qs[currentQ];
+  const total = qs.length;
+
+  document.getElementById('q-counter').textContent = `${currentQ + 1}/${total}`;
+  document.getElementById('progress-fill').style.width = `${(currentQ / total) * 100}%`;
+
+  const catTag = document.getElementById('cat-tag');
+  catTag.textContent = q.category;
+  catTag.className = round === 2 ? 'cat-tag purple' : 'cat-tag orange';
+
+  document.getElementById('question-text').textContent = q.question;
+
+  const scenBox = document.getElementById('scenario-box');
+  if (round === 2 && q.scenario) { scenBox.style.display = 'block'; scenBox.textContent = q.scenario; }
+  else { scenBox.style.display = 'none'; }
+
+  const list = document.getElementById('options-list');
+  list.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${String.fromCharCode(65 + idx)}</span><span class="opt-text">${opt}</span>`;
+    btn.onclick = () => handleSelect(idx);
+    list.appendChild(btn);
+  });
+
+  document.getElementById('feedback-area').innerHTML = '';
+  document.getElementById('btn-next').style.display = 'none';
+  document.getElementById('btn-next').textContent = (currentQ + 1 === total) ? (round === 1 ? 'Complete Round 1 →' : 'See Final Results →') : 'Next Question →';
+}
+
+function handleSelect(idx) {
+  const qs = round === 1 ? ROUND1 : ROUND2;
+  const q = qs[currentQ];
+  const isCorrect = idx === q.correct;
+  if (round === 1) { if (isCorrect) score++; answers.push({ correct: isCorrect }); }
+  else { if (isCorrect) r2Score++; r2Answers.push({ correct: isCorrect }); }
+
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) { btn.classList.add('correct'); btn.querySelector('.opt-letter').textContent = '✓'; }
+    else if (i === idx && !isCorrect) { btn.classList.add('wrong'); btn.querySelector('.opt-letter').textContent = '✗'; }
+  });
+
+  const fb = document.getElementById('feedback-area');
+  if (round === 1) {
+    fb.innerHTML = `<div class="explanation ${isCorrect ? 'correct-border' : 'wrong-border'}"><span class="explanation-label ${isCorrect ? 'green' : 'red'}">${isCorrect ? '✓ Correct! ' : '✗ Not quite. '}</span>${q.explanation}</div>`;
+  } else {
+    const lessonsHTML = q.lessons.map((l, i) => `<div class="lesson-item"><span class="lesson-num">${i + 1}</span>${l}</div>`).join('');
+    fb.innerHTML = `
+      <div class="solution-box">
+        <div class="solution-verdict">${isCorrect ? '✓ Correct — ' : '✗ The Answer: '}${q.verdict}</div>
+        <div class="solution-body">${q.body.replace(/\n\n/g, '<br><br>')}</div>
+      </div>
+      <div class="lessons-box">
+        <div class="lessons-title">📌 Key Lessons to Remember</div>
+        ${lessonsHTML}
+      </div>`;
+  }
+
+  document.getElementById('btn-next').style.display = 'block';
+}
+
+function nextQuestion() {
+  const qs = round === 1 ? ROUND1 : ROUND2;
+  if (currentQ + 1 < qs.length) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    if (round === 1) showBetween();
+    else showResult();
+  }
+}
+
+function startGame() {
+  round = 1; currentQ = 0; score = 0; r2Score = 0; answers = []; r2Answers = [];
+  setRoundTheme(1);
+  renderQuestion();
+  showScreen('screen-game');
+}
+
+function showBetween() {
+  const badges = [
+    { t: 0, l: "Marketing Rookie", e: "🎯" },
+    { t: 7, l: "Brand Strategist", e: "📊" },
+    { t: 11, l: "Marketing Maven", e: "🚀" },
+    { t: 13, l: "CMO Material", e: "👑" }
+  ];
+  let badge = badges[0];
+  badges.forEach(b => { if (score >= b.t) badge = b; });
+  document.getElementById('r1-badge-emoji').textContent = badge.e;
+  document.getElementById('r1-badge-label').textContent = badge.l;
+  document.getElementById('r1-score-display').innerHTML = `${score}<span>/13</span>`;
+  showScreen('screen-between');
+}
+
+function startRound2() {
+  round = 2; currentQ = 0;
+  setRoundTheme(2);
+  renderQuestion();
+  showScreen('screen-game');
+}
+
+function showResult() {
+  const total = score + r2Score;
+  const titles = [[14, "Marketing Master"], [11, "Strategic Thinker"], [8, "Brand Builder"], [0, "Future Marketer"]];
+  const msgs = [
+    [14, "Perfect score! You clearly live and breathe marketing."],
+    [11, "Strong performance — you know your fundamentals cold."],
+    [8, "Good work — a bit more study and you'll ace it."],
+    [0, "Keep learning — great marketers are made, not born!"]
+  ];
+  let title = titles[titles.length - 1][1], msg = msgs[msgs.length - 1][1];
+  titles.forEach(([t, l]) => { if (total >= t) title = l; });
+  msgs.forEach(([t, m]) => { if (total >= t) msg = m; });
+
+  document.getElementById('final-title').textContent = title;
+  document.getElementById('final-message').textContent = msg;
+  document.getElementById('final-r1').innerHTML = `${score}<span>/13</span>`;
+  document.getElementById('final-r2').innerHTML = `${r2Score}<span>/2</span>`;
+  document.getElementById('final-total').innerHTML = `${total}<span>/15</span>`;
+
+  const cards = document.getElementById('review-cards');
+  cards.innerHTML = ROUND2.map((q, qi) => {
+    const correct = r2Answers[qi]?.correct;
+    return `<div class="review-card" onclick="toggleCard(${qi})">
+      <div class="review-card-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="review-icon ${correct ? 'correct' : 'wrong'}">${correct ? '✓' : '✗'}</span>
+          <div><div class="review-q">${q.question}</div><div class="review-cat">${q.category}</div></div>
+        </div>
+        <span class="review-toggle" id="toggle-${qi}">+</span>
+      </div>
+      <div class="review-body" id="review-body-${qi}" style="display:none;">
+        <p>${q.body.replace(/\n\n/g, '<br><br>')}</p>
+        ${q.lessons.map(l => `<div class="review-lesson"><span class="review-arrow">→</span>${l}</div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  showScreen('screen-result');
+}
+
+function toggleCard(qi) {
+  const body = document.getElementById(`review-body-${qi}`);
+  const tog = document.getElementById(`toggle-${qi}`);
+  if (body.style.display === 'none') { body.style.display = 'block'; tog.textContent = '−'; }
+  else { body.style.display = 'none'; tog.textContent = '+'; }
+}
+
+function restartGame() { startGame(); }
+
+// Particles
+(function () {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const d = document.createElement('div');
+    const size = Math.random() * 3 + 1;
+    d.style.cssText = `position:absolute;left:${Math.random() * 100}%;top:${Math.random() * 100}%;width:${size}px;height:${size}px;border-radius:50%;background:rgba(30,64,175,0.3);animation:float ${Math.random() * 6 + 4}s ease-in-out ${Math.random() * 4}s infinite alternate;`;
+    container.appendChild(d);
+  }
+})();
+</script>
+</body>
+</html>
