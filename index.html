@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Marketing Mastery — Quiz 2</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<title>Marketing — Quiz 2</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { min-height: 100vh; background: #f5f7ff; font-family: 'DM Sans', sans-serif; color: #0f172a; overflow-x: hidden; }
@@ -116,8 +115,40 @@
   .footer-attribution p { font-size: 13px; color: rgba(15,23,42,0.5); line-height: 1.6; }
   .footer-attribution strong { color: #1e40af; font-weight: 600; }
 </style>
+<style id="vu-apple">
+:root{--blue-dark:#1d1d1f;--blue-mid:#0066cc;--blue-light:#0066cc;--blue-pale:#f5f5f7;--off-white:#f5f5f7;--grey-light:#e5e5ea;--grey-mid:#6e6e73;--text-dark:#1d1d1f;--text-mid:#424245;--accent:#0066cc;--navy:#1d1d1f;--blue:#0066cc;--accent-light:#0066cc;--pale:#f5f5f7;--pale2:#f5f5f7;--off:#f5f5f7;--grey:#e5e5ea;--text:#1d1d1f;--text2:#424245;--r1:#0066cc;--r2:#0066cc;--r3:#0066cc;--r4:#0066cc;--r5:#0066cc;--r6:#0066cc}
+*{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif!important}
+body{background:#f5f5f7!important;color:#1d1d1f!important;-webkit-font-smoothing:antialiased;letter-spacing:-.012em}
+#particles,#bg,#bg-glow-1,#bg-glow-2,.dot{display:none!important}
+.logo-bar,.footer-attribution,.footer-credit,.old-credit{display:none!important}
+h1,.hero-title{background:none!important;-webkit-text-fill-color:currentColor!important;color:#1d1d1f!important;font-weight:600!important;letter-spacing:-.02em!important;line-height:1.05!important}
+h1 span{color:#1d1d1f!important}
+h2,h3,.game-brand,.syne{font-weight:600!important;letter-spacing:-.01em!important}
+.game-brand,.game-brand.purple{color:#1d1d1f!important;background:none!important;-webkit-text-fill-color:currentColor!important}
+.label-tag,.eyebrow,.cat-tag,.q-tag{letter-spacing:0!important;text-transform:none!important;font-weight:600!important}
+.label-tag,.eyebrow{color:#6e6e73!important;font-size:15px!important}
+.card{box-shadow:none!important;border:1px solid #e5e5ea!important;border-radius:18px!important;background:#fff!important}
+.btn-primary,.btn-primary.purple,.btn-next,.btn-next.purple{background:#0066cc!important;color:#fff!important;border:0!important;border-radius:980px!important;box-shadow:none!important;font-weight:500!important;background-image:none!important}
+.btn-primary:hover,.btn-next:hover{filter:brightness(1.08);transform:none!important}
+.pill{background:#fff!important;border:1px solid #e5e5ea!important;color:#1d1d1f!important}
+.progress-bar-fill,.progress-bar-fill.purple,.progress-fill,.prog-fill{background:#1d1d1f!important;background-image:none!important}
+.scenario-box,.case-box,.between-box,.q-context,.lessons-box{box-shadow:none!important;border-radius:14px!important}
+.vu-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px 22px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid #e5e5ea}
+.vu-head img{height:34px;width:auto;display:block}
+.vu-credit{text-align:right;font-size:13px;line-height:1.35;color:#6e6e73}
+.vu-credit b{display:block;color:#1d1d1f;font-weight:600;font-size:14px}
+@media (max-width:520px){.vu-head{justify-content:center;text-align:center}.vu-credit{text-align:center}}
+.vu-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:flex-end}
+.vu-nav{display:flex;gap:14px;align-items:center;font-size:14px}
+.vu-nav a{color:#0066cc;text-decoration:none}
+.vu-nav a:hover{text-decoration:underline}
+.vu-nav button{font:inherit;font-size:14px;background:#f5f5f7;color:#1d1d1f;border:1px solid #d2d2d7;border-radius:980px;padding:5px 12px;cursor:pointer}
+@media (max-width:520px){.vu-right{justify-content:center}}
+</style>
 </head>
 <body>
+<header class="vu-head"><img src="vu-logo.png" alt="Vrije Universiteit Amsterdam"><div class="vu-right"><nav class="vu-nav"><a href="https://francescasotgiu.com/#teaching">All quizzes</a><button type="button" onclick="try{localStorage.clear()}catch(e){};location.href=location.pathname">Restart</button></nav><div class="vu-credit"><b>Prof. Francesca Sotgiu</b>Developed for the VU Marketing course 2026</div></div></header>
+
 
 <div id="bg-glow-1"></div>
 <div id="bg-glow-2"></div>
@@ -128,16 +159,16 @@
   <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding-top:60px;padding-bottom:60px;">
     <img src="VU-logo-RGB.jpg" alt="VU Amsterdam Logo" style="height:64px;width:auto;margin-bottom:32px;object-fit:contain;" />
     <span class="label-tag">Interactive Learning — Quiz 2</span>
-    <h1 class="hero-title">Marketing<br>Mastery</h1>
+    <h1 class="hero-title">Marketing</h1>
     <p class="subtitle">Two rounds. Thirteen concept questions on markets, value &amp; strategy — then two real-world application challenges.</p>
     <div class="pill-row" style="margin-top:28px;">
-      <span class="pill">🎯 Round 1: 13 Concept Qs</span>
-      <span class="pill">🧠 Round 2: 2 Application Cases</span>
-      <span class="pill">📋 Full Solutions &amp; Key Lessons</span>
+      <span class="pill">Round 1: 13 Concept Qs</span>
+      <span class="pill">Round 2: 2 Application Cases</span>
+      <span class="pill">Full Solutions &amp; Key Lessons</span>
     </div>
     <button class="btn-primary" onclick="startGame()">Start Round 1 →</button>
     <div class="footer-attribution">
-      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU PreMaster Marketing course 2026</p>
+      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU Marketing course 2026</p>
     </div>
   </div>
 </div>
@@ -147,7 +178,7 @@
   <div class="container">
     <div class="game-header">
       <div>
-        <div class="game-brand" id="game-brand">Marketing Mastery</div>
+        <div class="game-brand" id="game-brand">Marketing</div>
         <div class="game-round-label" id="round-label">Round 1 — Concepts</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
@@ -168,7 +199,7 @@
 <!-- BETWEEN ROUNDS -->
 <div id="screen-between" class="screen center">
   <div class="container" style="display:flex;flex-direction:column;align-items:center;padding-top:60px;padding-bottom:60px;">
-    <div style="font-size:60px;margin-bottom:12px;" id="r1-badge-emoji">🎯</div>
+    <div style="font-size:60px;margin-bottom:12px;" id="r1-badge-emoji"></div>
     <span class="label-tag">Round 1 Complete</span>
     <h2 class="hero-title" style="font-size:clamp(28px,5vw,44px);" id="r1-badge-label">Brand Strategist</h2>
     <div class="score-display" id="r1-score-display">0<span>/13</span></div>
@@ -181,7 +212,7 @@
     <button class="btn-primary purple" onclick="startRound2()">Start Round 2 →</button>
     <div class="footer-attribution">
       <img src="VU-logo-RGB.jpg" alt="VU Amsterdam Logo" style="height:48px;width:auto;margin-bottom:12px;object-fit:contain;" />
-      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU PreMaster Marketing course 2026</p>
+      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU Marketing course 2026</p>
     </div>
   </div>
 </div>
@@ -189,7 +220,7 @@
 <!-- FINAL RESULT -->
 <div id="screen-result" class="screen">
   <div class="container center" style="padding-top:50px;padding-bottom:80px;">
-    <div style="font-size:64px;margin-bottom:12px;">🏆</div>
+    <div style="font-size:64px;margin-bottom:12px;"></div>
     <span class="label-tag" style="color:#7c3aed;">All Rounds Complete</span>
     <h2 class="hero-title purple" id="final-title" style="font-size:clamp(30px,6vw,52px);">Marketing Master</h2>
     <div class="scores-row">
@@ -200,14 +231,14 @@
     <p style="color:rgba(15,23,42,0.55);font-size:15px;margin-bottom:48px;" id="final-message"></p>
 
     <div style="text-align:left;margin-bottom:40px;">
-      <div class="review-section-title">📚 Application Case Review — Key Lessons</div>
+      <div class="review-section-title">Application Case Review — Key Lessons</div>
       <div id="review-cards"></div>
     </div>
 
     <button class="btn-primary full" onclick="restartGame()">Play Again</button>
     <div class="footer-attribution" style="margin-top:48px;">
       <img src="VU-logo-RGB.jpg" alt="VU Amsterdam Logo" style="height:48px;width:auto;margin-bottom:12px;object-fit:contain;" />
-      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU PreMaster Marketing course 2026</p>
+      <p><strong>Prof. Francesca Sotgiu</strong><br>Developed for the VU Marketing course 2026</p>
     </div>
   </div>
 </div>
@@ -390,7 +421,7 @@ const ROUND2 = [
     id: 14,
     category: "Marketing Orientations",
     question: "Which marketing orientation does this reflect?",
-    scenario: "📋 Volvo invented the three-point seatbelt in 1959. Rather than patenting it to generate revenue, Volvo made the patent free for all competitors to use — because the invention had more value as a universal life-saving tool than as a source of profit.",
+    scenario: "Volvo invented the three-point seatbelt in 1959. Rather than patenting it to generate revenue, Volvo made the patent free for all competitors to use — because the invention had more value as a universal life-saving tool than as a source of profit.",
     options: [
       "Product orientation — Volvo focused on perfecting the seatbelt technology above all else.",
       "Marketing orientation — Volvo identified consumer safety needs and responded to them.",
@@ -412,7 +443,7 @@ const ROUND2 = [
     id: 15,
     category: "BCG Matrix",
     question: "A mail-order company has three SBUs: Fashion, Electronics, and Furniture. Based on the BCG Matrix, which analysis and recommendation is correct?",
-    scenario: "📋 Market positions: Fashion — market leader (your share is 50% higher than the main competitor); Electronics — market leader (your share is 70% higher than the main competitor); Furniture — follower (your share is 40% vs. competitor's 60%). Market growth rates: Electronics +8%, Fashion +4%, Furniture +2%. Revenue split: 50% Fashion, 25% Electronics, 25% Furniture.",
+    scenario: "Market positions: Fashion — market leader (your share is 50% higher than the main competitor); Electronics — market leader (your share is 70% higher than the main competitor); Furniture — follower (your share is 40% vs. competitor's 60%). Market growth rates: Electronics +8%, Fashion +4%, Furniture +2%. Revenue split: 50% Fashion, 25% Electronics, 25% Furniture.",
     options: [
       "Electronics = Cash Cow (invest heavily); Fashion = Star (harvest); Furniture = Dog (grow) — double down on all three.",
       "Electronics = Star (invest to maintain leadership); Fashion = Cash Cow (harvest to fund growth); Furniture = Dog (consider divesting or restructuring).",
@@ -525,7 +556,7 @@ function handleSelect(idx) {
         <div class="solution-body">${q.body.replace(/\n\n/g, '<br><br>')}</div>
       </div>
       <div class="lessons-box">
-        <div class="lessons-title">📌 Key Lessons to Remember</div>
+        <div class="lessons-title">Key Lessons to Remember</div>
         ${lessonsHTML}
       </div>`;
   }
@@ -553,10 +584,10 @@ function startGame() {
 
 function showBetween() {
   const badges = [
-    { t: 0, l: "Marketing Rookie", e: "🎯" },
-    { t: 7, l: "Brand Strategist", e: "📊" },
-    { t: 11, l: "Marketing Maven", e: "🚀" },
-    { t: 13, l: "CMO Material", e: "👑" }
+    { t: 0, l: "Marketing Rookie", e: "" },
+    { t: 7, l: "Brand Strategist", e: "" },
+    { t: 11, l: "Marketing Maven", e: "" },
+    { t: 13, l: "CMO Material", e: "" }
   ];
   let badge = badges[0];
   badges.forEach(b => { if (score >= b.t) badge = b; });
